@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">Pathway Guidance Services Logo</title>
+  <desc id="desc">Calm pathway and sun motif in gold and navy.</desc>
+  <rect width="120" height="120" rx="26" fill="#172554"/>
+  <circle cx="60" cy="34" r="16" fill="#eab308"/>
+  <path d="M28 96c11-26 24-40 32-40 10 0 14 16 30 16 7 0 13-3 18-8" fill="none" stroke="#f8e7aa" stroke-width="10" stroke-linecap="round"/>
+  <path d="M24 98h72" stroke="#f8e7aa" stroke-width="4" stroke-linecap="round"/>
+</svg>

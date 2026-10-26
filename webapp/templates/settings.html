@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<section class="card">
+  <h2>Deployment Settings</h2>
+  <div class="summary-grid">
+    <div><span class="eyebrow">HTTPS Enforcement</span><strong>{{ "Required" if settings_view.require_https else "Prepared, off locally" }}</strong></div>
+    <div><span class="eyebrow">MFA Requirement</span><strong>{{ "Required" if settings_view.require_mfa else "Prepared, off locally" }}</strong></div>
+    <div><span class="eyebrow">Session Timeout</span><strong>{{ settings_view.session_hours }} hours</strong></div>
+    <div><span class="eyebrow">Storage Backend</span><strong>{{ settings_view.storage_backend }}</strong></div>
+    <div><span class="eyebrow">Storage Root</span><strong>{{ settings_view.storage_root }}</strong></div>
+    <div><span class="eyebrow">Database</span><strong>{{ settings_view.database_url }}</strong></div>
+  </div>
+</section>
+{% endblock %}

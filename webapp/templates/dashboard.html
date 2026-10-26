@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="stats-grid">
+  <div class="card stat-card"><div class="eyebrow">Total Clients</div><div class="stat">{{ statuses|length }}</div></div>
+  {% if user.role == "Support Staff" %}
+  <div class="card stat-card"><div class="eyebrow">Documents</div><div class="stat">{{ statuses|sum(attribute='document_count') }}</div></div>
+  {% else %}
+  <div class="card stat-card"><div class="eyebrow">Total Sessions</div><div class="stat">{{ total_sessions }}</div></div>
+  <div class="card stat-card"><div class="eyebrow">Red Alerts</div><div class="stat bad">{{ red_alerts }}</div></div>
+  {% endif %}
+  <div class="card stat-card"><div class="eyebrow">Access Scope</div><div class="stat">{{ "All Clients" if user.role == "Admin" else "Assigned Clients" }}</div></div>
+</section>
+<section class="card permissions-card">
+  <div class="section-heading">
+    <h2>Permission Boundary</h2>
+    <span class="role-pill">{{ user.role }}</span>
+  </div>
+  <div class="permission-grid">
+    <div>
+      <h3>Allowed</h3>
+      <ul class="permission-list">
+        {% for item in permission_summary.allowed %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h3>Restricted</h3>
+      <ul class="permission-list">
+        {% for item in permission_summary.restricted %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="card">
+  <div class="section-heading">
+    <h2>{{ heading }}</h2>
+    <form method="get" action="/dashboard" class="inline-search">
+      <input name="q" value="{{ query }}" placeholder="Search clients by name">
+      <button class="primary-btn" type="submit">Search</button>
+    </form>
+  </div>
+  <table class="data-table">
+    {% if user.role == "Support Staff" %}
+    <thead><tr><th>Client Name</th><th>Documents</th><th>Missing Forms</th></tr></thead>
+    {% else %}
+    <thead><tr><th>Client Name</th><th>Sessions</th><th>Treatment Plan</th><th>Missing Forms</th><th>Alert</th></tr></thead>
+    {% endif %}
+    <tbody>
+      {% for row in statuses %}
+      <tr class="clickable-row" onclick="window.location.href='/clients/{{ row.client.id }}'">
+        {% if user.role == "Support Staff" %}
+        <td>{{ row.client.name }}</td>
+        <td>{{ row.document_count }}</td>
+        <td><span class="{{ 'badge-ok' if row.missing_forms_flag == 'OK' else 'badge-bad' }}">{{ row.missing_forms_flag }}</span></td>
+        {% else %}
+        <td>{{ row.client.name }}</td>
+        <td>{{ row.sessions_count }}</td>
+        <td><span class="{{ 'badge-ok' if row.treatment_plan_status == 'OK' else 'badge-bad' }}">{{ row.treatment_plan_status }}</span></td>
+        <td><span class="{{ 'badge-ok' if row.missing_forms_flag == 'OK' else 'badge-bad' }}">{{ row.missing_forms_flag }}</span></td>
+        <td><span class="{{ 'badge-ok' if row.alert_level == 'GREEN' else 'badge-warn' if row.alert_level == 'YELLOW' else 'badge-bad' }}">{{ row.alert_level }}</span></td>
+        {% endif %}
+      </tr>
+      {% else %}
+      <tr><td colspan="{{ 3 if user.role == 'Support Staff' else 5 }}">No clients found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

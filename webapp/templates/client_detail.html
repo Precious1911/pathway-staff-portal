@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Client Detail{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="section-heading">
+    <h2>{{ client.name }}</h2>
+    <span class="{{ 'badge-ok' if status.alert_level == 'GREEN' else 'badge-warn' if status.alert_level == 'YELLOW' else 'badge-bad' }}">{{ status.alert_level }}</span>
+  </div>
+  <p class="role-note">
+    {% if user.role == "Support Staff" %}
+    Clinical records are available to Admin and Therapist roles only.
+    {% else %}
+    You can work only within your assigned-client scope unless you are an Admin.
+    {% endif %}
+  </p>
+  <div class="tab-row">
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=overview">Overview</a>
+    {% if can_edit_clinical %}
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=soap">SOAP Notes</a>
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=treatment">Treatment Plans</a>
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=summary">Summary Reports</a>
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=safety">Safety Plans</a>
+    {% endif %}
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=worksheets">Worksheets</a>
+    <a class="tab-link" href="/clients/{{ client.id }}?tab=billing">Billing/Documents</a>
+  </div>
+  <div class="tab-panel">
+    {% if tab == "overview" %}
+    <div class="summary-grid">
+      <div><span class="eyebrow">Client Name</span><strong>{{ client.name }}</strong></div>
+      <div><span class="eyebrow">DOB</span><strong>{{ client.date_of_birth or "" }}</strong></div>
+      {% if can_edit_clinical %}
+      <div><span class="eyebrow">Primary Concern</span><strong>{{ client.primary_concern }}</strong></div>
+      <div><span class="eyebrow">Sessions</span><strong>{{ status.sessions_count }}</strong></div>
+      <div><span class="eyebrow">Treatment Plan</span><strong>{{ status.treatment_plan_status }}</strong></div>
+      {% endif %}
+      <div><span class="eyebrow">Missing Forms</span><strong>{{ status.missing_forms_flag }}</strong></div>
+    </div>
+    <div class="action-row" style="margin-top:16px;">
+      {% if can_edit_clinical %}
+      <a class="primary-btn" href="/soap/new?client_id={{ client.id }}">New SOAP Note</a>
+      <a class="primary-btn" href="/treatment/new?client_id={{ client.id }}">New Treatment Plan</a>
+      <a class="primary-btn" href="/summary/new?client_id={{ client.id }}">New Summary Report</a>
+      <a class="primary-btn" href="/safety/new?client_id={{ client.id }}">New Safety Plan</a>
+      {% endif %}
+    </div>
+    {% elif tab == "soap" %}
+      {% for row in soap_notes %}
+      <div class="record-item">
+        <div><strong>{{ row.assessment or "SOAP Note" }}</strong><span>{{ row.session_date }}</span></div>
+        {% if can_edit_clinical %}<a class="ghost-btn" href="/soap/{{ row.id }}/edit">Edit</a>{% endif %}
+      </div>
+      {% else %}<p>No SOAP notes yet.</p>{% endfor %}
+    {% elif tab == "treatment" %}
+      {% for row in treatment_plans %}
+      <div class="record-item">
+        <div><strong>{{ row.diagnosis or "Treatment Plan" }}</strong><span>{{ row.created_date }}</span></div>
+        {% if can_edit_clinical %}<a class="ghost-btn" href="/treatment/{{ row.id }}/edit">Edit</a>{% endif %}
+      </div>
+      {% else %}<p>No treatment plans yet.</p>{% endfor %}
+    {% elif tab == "summary" %}
+      {% for row in summary_reports %}
+      <div class="record-item">
+        <div><strong>{{ row.clinical_summary or "Summary Report" }}</strong><span>{{ row.report_date }}</span></div>
+        {% if can_edit_clinical %}<a class="ghost-btn" href="/summary/{{ row.id }}/edit">Edit</a>{% endif %}
+      </div>
+      {% else %}<p>No summary reports yet.</p>{% endfor %}
+    {% elif tab == "safety" %}
+      {% for row in safety_plans %}
+      <div class="record-item">
+        <div><strong>{{ row.warning_signs or "Safety Plan" }}</strong><span>{{ row.created_date }}</span></div>
+        {% if can_edit_clinical %}<a class="ghost-btn" href="/safety/{{ row.id }}/edit">Edit</a>{% endif %}
+      </div>
+      {% else %}<p>No safety plans yet.</p>{% endfor %}
+    {% elif tab == "worksheets" %}
+      {% for row in worksheets %}
+      <div class="record-item"><div><strong>{{ row.title }}</strong><span>{{ row.category }}</span></div></div>
+      {% else %}<p>No worksheets assigned yet.</p>{% endfor %}
+    {% elif tab == "billing" %}
+      <p>{{ client.billing_documents or "No billing notes listed." }}</p>
+      {% for row in documents %}
+      <div class="record-item">
+        <div><strong>{{ row.title }}</strong><span>{{ row.document_type }} · {{ row.created_at }}</span></div>
+        <a class="ghost-btn" href="/documents/{{ row.id }}/download">Download</a>
+      </div>
+      {% else %}<p>No documents yet.</p>{% endfor %}
+      {% if can_upload_support %}
+      <form method="post" action="/documents/upload" enctype="multipart/form-data" class="stack-form">
+        <input type="hidden" name="client_id" value="{{ client.id }}">
+        <label>Document Title<input name="title" required></label>
+        <label>Document Type<input name="document_type" required></label>
+        <label>Notes<textarea name="notes"></textarea></label>
+        <label>File<input type="file" name="upload" required></label>
+        <button class="primary-btn" type="submit">Upload Document</button>
+      </form>
+      {% endif %}
+      {% if can_flag_missing %}
+      <form method="post" action="/clients/{{ client.id }}/flag-missing" class="inline-form">
+        <button class="ghost-btn" type="submit">Flag Missing Forms</button>
+      </form>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
