@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Audit Log{% endblock %}
+{% block content %}
+<section class="card">
+  <h2>Audit Log</h2>
+  <table class="data-table">
+    <thead><tr><th>Time</th><th>Action</th><th>Target</th><th>Details</th></tr></thead>
+    <tbody>
+      {% for row in logs %}
+      <tr><td>{{ row.created_at }}</td><td>{{ row.action }}</td><td>{{ row.target_type }}</td><td>{{ row.details }}</td></tr>
+      {% else %}
+      <tr><td colspan="4">No audit records yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

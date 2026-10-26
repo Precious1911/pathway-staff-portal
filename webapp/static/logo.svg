@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Pathway Guidance Services logo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#172554"/>
+      <stop offset="100%" stop-color="#2e1065"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="26" fill="url(#g)"/>
+  <path d="M28 80c10-6 18-18 24-38 4 14 10 25 18 33 5 5 12 9 22 13" fill="none" stroke="#d4af37" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="41" r="6" fill="#fff8db"/>
+</svg>

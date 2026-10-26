@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Pathway Staff Portal{% endblock %}</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brandline">
+        <img src="/static/logo.svg" alt="Pathway logo" class="logo">
+        <div>
+          <h1>Pathway Guidance Services</h1>
+          <p>Staff Clinical Documentation Portal</p>
+        </div>
+      </div>
+      {% if user %}
+      <div class="userline">
+        <span class="role-pill">{{ user.role }}</span>
+        <span>{{ user.name }}</span>
+        <a href="/account">Change password</a>
+        <form method="post" action="/logout">
+          <button class="ghost-btn" type="submit">Logout</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    {% if user %}
+    <nav class="navlinks">
+      <a href="/dashboard">Dashboard</a>
+      <a href="/clients">Clients</a>
+      <a href="/worksheets">Worksheet Library</a>
+      {% if user.role in ["Admin", "Therapist"] %}
+      <a href="/soap/new">New SOAP Note</a>
+      <a href="/treatment/new">New Treatment Plan</a>
+      <a href="/summary/new">New Summary Report</a>
+      <a href="/safety/new">New Safety Plan</a>
+      {% endif %}
+      {% if user.role == "Admin" %}
+      <a href="/reports">Reports</a>
+      <a href="/admin/staff">Staff Management</a>
+      <a href="/audit">Audit Log</a>
+      <a href="/settings">Settings</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+  </header>
+  <main class="page-shell">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

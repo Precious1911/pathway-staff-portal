@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="section-heading">
+    <h2>Client List</h2>
+    <form method="get" action="/clients" class="inline-search">
+      <input name="q" value="{{ query }}" placeholder="Search clients by name">
+      <button class="primary-btn" type="submit">Search</button>
+    </form>
+  </div>
+  <div class="client-grid">
+    {% for row in statuses %}
+    <a class="client-card" href="/clients/{{ row.client.id }}">
+      <div><strong>{{ row.client.name }}</strong></div>
+      {% if user.role == "Support Staff" %}
+      <div class="muted">Documents: {{ row.document_count }}</div>
+      <div class="pill-row">
+        <span class="{{ 'badge-ok' if row.missing_forms_flag == 'OK' else 'badge-bad' }}">Forms {{ row.missing_forms_flag }}</span>
+      </div>
+      {% else %}
+      <div class="muted">Sessions: {{ row.sessions_count }} | Documents: {{ row.document_count }}</div>
+      <div class="pill-row">
+        <span class="{{ 'badge-ok' if row.treatment_plan_status == 'OK' else 'badge-bad' }}">Plan {{ row.treatment_plan_status }}</span>
+        <span class="{{ 'badge-ok' if row.missing_forms_flag == 'OK' else 'badge-bad' }}">Forms {{ row.missing_forms_flag }}</span>
+        <span class="{{ 'badge-ok' if row.alert_level == 'GREEN' else 'badge-warn' if row.alert_level == 'YELLOW' else 'badge-bad' }}">{{ row.alert_level }}</span>
+      </div>
+      {% endif %}
+    </a>
+    {% else %}
+    <p>No clients found.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}New {{ kind|title }}{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="section-heading">
+    <h2>{{ heading }}</h2>
+  </div>
+  <form method="post" action="{{ action }}" class="stack-form">
+    <label>Client
+      <select name="client_id" required>
+        <option value="">Select client</option>
+        {% for client in clients %}
+        <option value="{{ client.id }}" {% if selected_client_id == client.id %}selected{% endif %}>{{ client.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% if kind == "soap" %}
+    <label>Session Date<input type="date" name="session_date" value="{{ record.session_date if record else today }}" required></label>
+    <label>Subjective<textarea name="subjective">{{ record.subjective if record else "" }}</textarea></label>
+    <label>Objective<textarea name="objective">{{ record.objective if record else "" }}</textarea></label>
+    <label>Assessment<textarea name="assessment">{{ record.assessment if record else "" }}</textarea></label>
+    <label>Plan<textarea name="plan">{{ record.plan if record else "" }}</textarea></label>
+    <label>Risk Assessment<textarea name="risk_assessment">{{ record.risk_assessment if record else "" }}</textarea></label>
+    <label>Interventions<textarea name="interventions">{{ record.interventions if record else "" }}</textarea></label>
+    <label>Therapist Signature<input name="therapist_signature" value="{{ record.therapist_signature if record else user.name }}"></label>
+    {% elif kind == "treatment" %}
+    <label>Created Date<input type="date" name="created_date" value="{{ record.created_date if record else today }}" required></label>
+    <label>Presenting Problem<textarea name="presenting_problem">{{ record.presenting_problem if record else "" }}</textarea></label>
+    <label>Diagnosis<textarea name="diagnosis">{{ record.diagnosis if record else "" }}</textarea></label>
+    <label>Long Term Goal<textarea name="long_term_goal">{{ record.long_term_goal if record else "" }}</textarea></label>
+    <label>Short Term Goals<textarea name="short_term_goals">{{ record.short_term_goals if record else "" }}</textarea></label>
+    <label>Objectives<textarea name="objectives">{{ record.objectives if record else "" }}</textarea></label>
+    <label>Interventions<textarea name="interventions">{{ record.interventions if record else "" }}</textarea></label>
+    <label>Frequency<input name="frequency" value="{{ record.frequency if record else '' }}"></label>
+    <label>Review Date<input type="date" name="review_date" value="{{ record.review_date if record and record.review_date else '' }}"></label>
+    <label>Client Signature<input name="client_signature" value="{{ record.client_signature if record else '' }}"></label>
+    <label>Therapist Signature<input name="therapist_signature" value="{{ record.therapist_signature if record else user.name }}"></label>
+    {% elif kind == "summary" %}
+    <label>Report Date<input type="date" name="report_date" value="{{ record.report_date if record else today }}" required></label>
+    <label>Referral Reason<textarea name="referral_reason">{{ record.referral_reason if record else "" }}</textarea></label>
+    <label>Current Concerns<textarea name="current_concerns">{{ record.current_concerns if record else "" }}</textarea></label>
+    <label>Progress to Date<textarea name="progress_to_date">{{ record.progress_to_date if record else "" }}</textarea></label>
+    <label>Interventions Used<textarea name="interventions_used">{{ record.interventions_used if record else "" }}</textarea></label>
+    <label>Barriers<textarea name="barriers">{{ record.barriers if record else "" }}</textarea></label>
+    <label>Recommendations<textarea name="recommendations">{{ record.recommendations if record else "" }}</textarea></label>
+    <label>Clinical Summary<textarea name="clinical_summary">{{ record.clinical_summary if record else "" }}</textarea></label>
+    <label>Therapist Signature<input name="therapist_signature" value="{{ record.therapist_signature if record else user.name }}"></label>
+    {% elif kind == "safety" %}
+    <label>Created Date<input type="date" name="created_date" value="{{ record.created_date if record else today }}" required></label>
+    <label>Warning Signs<textarea name="warning_signs">{{ record.warning_signs if record else "" }}</textarea></label>
+    <label>Internal Coping Strategies<textarea name="internal_coping_strategies">{{ record.internal_coping_strategies if record else "" }}</textarea></label>
+    <label>People and Places for Distraction<textarea name="distraction_places">{{ record.distraction_places if record else "" }}</textarea></label>
+    <label>People to Ask for Help<textarea name="help_people">{{ record.help_people if record else "" }}</textarea></label>
+    <label>Professionals and Crisis Resources<textarea name="professionals_resources">{{ record.professionals_resources if record else "" }}</textarea></label>
+    <label>Means Safety Steps<textarea name="means_safety_steps">{{ record.means_safety_steps if record else "" }}</textarea></label>
+    <label>Reasons for Living<textarea name="reasons_for_living">{{ record.reasons_for_living if record else "" }}</textarea></label>
+    <label>Signature and Date<input name="signature_and_date" value="{{ record.signature_and_date if record else '' }}"></label>
+    {% endif %}
+    <button class="primary-btn" type="submit">{{ "Save Changes" if record else "Save" }}</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brandline">
+        <img src="/static/logo.svg" alt="Pathway logo" class="logo">
+        <div>
+          <h1>Pathway Guidance Services</h1>
+          <p>Staff Clinical Documentation Portal</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="page-shell">
+    <section class="login-shell">
+      <div class="card login-card">
+        <h2>Staff Login</h2>
+        <p class="muted">Secure staff-only access for Pathway Guidance Services.</p>
+        {% if error %}<p class="error">{{ error }}</p>{% endif %}
+        <form method="post" action="/login" class="stack-form">
+          <label>Username<input name="username" required></label>
+          <label>Password<input name="password" type="password" required></label>
+          <button class="primary-btn" type="submit">Sign In</button>
+        </form>
+        {% if seeded_users %}
+        <div class="demo-box">
+          <strong>Local preview users</strong>
+          {% for label, username, password in seeded_users %}
+          <div>{{ label }}: <code>{{ username }}</code> / <code>{{ password }}</code></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>

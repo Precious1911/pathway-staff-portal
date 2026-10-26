@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      # Loopback only: put the TLS reverse proxy in front of this.
+      - "127.0.0.1:8891:8891"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - pathway_client_storage:/data/clients
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: pathway_staff_portal
+      POSTGRES_USER: pathway_staff
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your .env before starting this stack}
+    # Not published to the host: only the "web" service can reach Postgres,
+    # over the compose-internal network. Do not add a "ports" mapping here.
+    volumes:
+      - pathway_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  pathway_postgres_data:
+  pathway_client_storage:

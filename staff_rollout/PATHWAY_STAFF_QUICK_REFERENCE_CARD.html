@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathway Staff Portal Quick Reference Card</title>
+  <style>
+    :root {
+      --navy: #172554;
+      --purple: #2e1065;
+      --gold: #d4af37;
+      --ink: #172033;
+      --muted: #52607a;
+      --paper: #ffffff;
+      --soft: #f5f7fb;
+      --line: #dde4f0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", Arial, sans-serif;
+      background: var(--soft);
+      color: var(--ink);
+      line-height: 1.35;
+    }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      background: var(--paper);
+      padding: 0.45in;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: linear-gradient(120deg, var(--navy), var(--purple));
+      color: #fff8db;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0.02em;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      color: #eadfb5;
+      font-size: 14px;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      border: 2px solid rgba(255, 248, 219, 0.4);
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px;
+    }
+
+    .intro {
+      margin: 18px 0 14px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--gold);
+      background: #fbf8ec;
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: #fcfdff;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: var(--navy);
+    }
+
+    ul,
+    ol {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    li + li {
+      margin-top: 6px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .label {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .therapist {
+      background: #e0f2fe;
+      color: #0c4a6e;
+    }
+
+    .support {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .warning {
+      background: #fef2f2;
+      color: #991b1b;
+    }
+
+    .footer {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0.35in;
+      }
+    }
+
+    @media screen and (max-width: 900px) {
+      .page {
+        width: auto;
+        min-height: auto;
+        padding: 18px;
+      }
+
+      .grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="brand">
+        <h1>Pathway Staff Portal</h1>
+        <p>Quick Reference Card</p>
+      </div>
+      <div class="logo">PATHWAY<br>GUIDANCE</div>
+    </div>
+
+    <div class="intro">
+      Use this card during daily work. Stay within your assigned clients, confirm the correct record before saving, and log out when finished.
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Daily Workflow</h2>
+        <ol>
+          <li>Log in</li>
+          <li>Open <strong>Dashboard</strong></li>
+          <li>Select an assigned client</li>
+          <li>Complete notes or uploads</li>
+          <li>Review missing items</li>
+          <li>Log out</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h2>Before Saving</h2>
+        <ul>
+          <li>Confirm correct client</li>
+          <li>Confirm date</li>
+          <li>Review required fields</li>
+          <li>Save</li>
+          <li>Reopen if needed to confirm it saved correctly</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="label therapist">Therapist</div>
+        <ul>
+          <li>Use assigned clients only</li>
+          <li>Complete SOAP notes</li>
+          <li>Complete treatment plans</li>
+          <li>Complete summary reports</li>
+          <li>Complete safety plans</li>
+          <li>Upload documents and worksheets</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="label support">Support Staff</div>
+        <ul>
+          <li>Use assigned clients only</li>
+          <li>Upload documents</li>
+          <li>Upload worksheets</li>
+          <li>Flag missing forms</li>
+          <li>Do not complete clinical notes</li>
+        </ul>
+      </div>
+
+      <div class="card full">
+        <div class="two-col">
+          <div>
+            <h2>Document Uploads</h2>
+            <ul>
+              <li>Open the correct client first</li>
+              <li>Choose the correct document type</li>
+              <li>Confirm the file appears in the client record</li>
+            </ul>
+          </div>
+          <div>
+            <h2>If There Is A Problem</h2>
+            <ul>
+              <li>Contact <strong>Dr. Barnett / Admin</strong></li>
+              <li>Provide your name</li>
+              <li>Provide client name</li>
+              <li>Explain what you were trying to do</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full">
+        <div class="label warning">Do Not</div>
+        <ul>
+          <li>Do not access unassigned clients</li>
+          <li>Do not share logins</li>
+          <li>Do not guess if something fails</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      Authorized staff use only.
+    </div>
+  </div>
+</body>
+</html>

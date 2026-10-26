@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Staff Management{% endblock %}
+{% block content %}
+<section class="card">
+  <h2>Create Staff User</h2>
+  <form method="post" action="/admin/staff/create" class="stack-form two-col">
+    <label>Name<input name="name" required></label>
+    <label>Username<input name="username" required></label>
+    <label>Password<input name="password" type="password" required></label>
+    <label>Role
+      <select name="role" required>
+        <option>Admin</option>
+        <option>Therapist</option>
+        <option>Support Staff</option>
+      </select>
+    </label>
+    <button class="primary-btn" type="submit">Create Staff User</button>
+  </form>
+</section>
+<section class="card">
+  <h2>Assign Client</h2>
+  <form method="post" action="/admin/assign-client" class="stack-form two-col">
+    <label>Staff User
+      <select name="user_id" required>
+        {% for row in staff_users if row.role != "Admin" %}
+        <option value="{{ row.id }}">{{ row.name }} · {{ row.role }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Client
+      <select name="client_id" required>
+        {% for client in clients %}
+        <option value="{{ client.id }}">{{ client.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Assignment Type<input name="assignment_role" value="Assigned Caseload" required></label>
+    <button class="primary-btn" type="submit">Assign Client</button>
+  </form>
+</section>
+<section class="card">
+  <table class="data-table">
+    <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for row in staff_users %}
+      <tr>
+        <td>{{ row.name }}</td>
+        <td>{{ row.username }}</td>
+        <td>{{ row.role }}</td>
+        <td>{{ "Active" if row.active else "Inactive" }}</td>
+        <td>
+          {% if row.active and row.username != user.username %}
+          <form method="post" action="/admin/staff/{{ row.id }}/deactivate" class="inline-form">
+            <button class="ghost-btn" type="submit">Deactivate</button>
+          </form>
+          {% else %}
+          <span class="muted">No action</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
